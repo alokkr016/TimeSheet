@@ -73,24 +73,3 @@ Timesheets are a vital tool for any organization that wants to keep track of its
 In addition to being useful for management purposes, timesheets can also be used as a way for employees to track their own progress and manage their workload. By keeping track of the time they spend on each task, employees can identify areas where they may need to improve their efficiency or ask for additional support. 
 
  
-
-  
-
----------------------------------------------------------------------------------------------------------------------------------- 
- 
-
- 
-
-A screenshot of a computer
-
-Description automatically generated 
-
- 
-
-A screenshot of a computer
-
-Description automatically generated 
-
-A screenshot of a computer
-
-Description automatically generated 
