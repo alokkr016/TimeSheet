@@ -32,9 +32,9 @@ public class Main {
 
 	Report report = new Report();
 
-	GetDay a = new GetDay();
+	GetDay getDay = new GetDay();
 
-	ImpWait iw = new ImpWait();
+	ImpWait implicitWait = new ImpWait();
 
 	@BeforeClass
 	public void beforeC() {
@@ -45,7 +45,7 @@ public class Main {
 	@BeforeMethod
 	public void setDriver(@Optional("chrome") String browser) throws IOException, InterruptedException {
 		Driver obj = new Driver();
-		driver = obj.driver(browser);
+		driver = obj.getDriver(browser);
 	}
 
 	@Test(enabled = true, priority = 1)
@@ -57,18 +57,18 @@ public class Main {
 		report.logsInfo("Opening the browser");
 
 		// creating object of the HomePage class
-		HomePage hp = new HomePage(driver);
+		HomePage homePage = new HomePage(driver);
 		Thread.sleep(15000);
-		iw.wait(driver);
+		implicitWait.wait(driver);
 
 		report.logsInfo("Going to the user details page");
-		List<String> a = hp.userDetails();
+		List<String> a = homePage.userDetails();
 		report.logsInfo("Taking the screenshot of user details page");
 
 		// Verifying the name and the email using the hard assertions
 		Assert.assertEquals(a.get(0), "Kumar, Alok (Contractor)");
 		report.logsInfo("Verified the name");
-		Assert.assertEquals(a.get(1), "Alok.Kumar106b23@cognizant.com");
+		Assert.assertEquals(getDay.get(1), "Alok.Kumar106b23@cognizant.com");
 		report.logsInfo("Verified the email");
 	}
 
@@ -81,15 +81,15 @@ public class Main {
 		report.logsInfo("Taking the parent window handle value");
 
 		// creating object of the TimeSheet class
-		TimeSheet ts = new TimeSheet(driver);
+		TimeSheet timesheet = new TimeSheet(driver);
 		report.logsInfo("creating the TimeSheet class object");
 		report.logsInfo("Opening the browser");
 		report.logsInfo("Waiting to get website load");
-		iw.wait(driver);
+		implicitWait.wait(driver);
 
-		ts.timeNav();
-		iw.wait(driver);
-		List<String> d = ts.date(parentWindow);
+		timesheet.timeNav();
+		implicitWait.wait(driver);
+		List<String> d = timesheet.date(parentWindow);
 		report.logsInfo("we get the time dates");
 
 		// creating object of the Valid class
@@ -119,14 +119,14 @@ public class Main {
 		String parentWindow = driver.getWindowHandle();
 		report.logsInfo("Taking the parent window handle value");
 		
-		TimeSheet ts = new TimeSheet(driver);
+		TimeSheet timesheet = new TimeSheet(driver);
 		report.logsInfo("creating the TimeSheet class object");
 		report.logsInfo("Opening the browser");
 		report.logsInfo("Waiting to get website load");
-		iw.wait(driver);
+		implicitWait.wait(driver);
 
-		ts.timeNav();
-		iw.wait(driver);
+		timesheet.timeNav();
+		implicitWait.wait(driver);
 		Set<String> handles=driver.getWindowHandles();
 		for(String h:handles)
 	     {
@@ -134,7 +134,7 @@ public class Main {
 	    	 {
 	    		 driver.switchTo().window(h);
 	    		 
-	    		 iw.wait(driver);
+	    		 implicitWait.wait(driver);
 	    		 
 	    		 try
 	    		 {
@@ -152,63 +152,44 @@ public class Main {
 		report.logsInfo("Search by status");
 		Thread.sleep(5000);
 
-		
-		clickDropDown("APR");
+		HandleDropDown dropdown = new HandleDropDown();
+		dropdown.clickDropDown("APR");
 		report.logsInfo("for approved timesheets");
 		
-		clickDropDown("OVR");
+		dropdown.clickDropDown("OVR");
 		driver.findElement(By.xpath("//*[@id=\"#ICOK\"]")).click();
 		Thread.sleep(2000);
 		report.logsInfo("for overdue timesheets");
 
-		clickDropDown("PAR");
+		dropdown.clickDropDown("PAR");
 		driver.findElement(By.xpath("//*[@id=\"#ICOK\"]")).click();
 		Thread.sleep(2000);
 		report.logsInfo("for partially approved timesheets");
 		
-		clickDropDown("PND");
+		dropdown.clickDropDown("PND");
 //	    driver.findElement(By.xpath("//*[@id=\"#ICOK\"]")).click();
 		Thread.sleep(2000);
 		report.logsInfo("for pending timesheets");
 
-		clickDropDown("SAV");
+		dropdown.clickDropDown("SAV");
 		driver.findElement(By.xpath("//*[@id=\"#ICOK\"]")).click();
 		Thread.sleep(2000);
 
-		clickDropDown("SBR");
+		dropdown.clickDropDown("SBR");
 		driver.findElement(By.xpath("//*[@id=\"#ICOK\"]")).click();
 		Thread.sleep(2000);
 
-		clickDropDown("SUB");
+		dropdown.clickDropDown("SUB");
 		driver.findElement(By.xpath("//*[@id=\"#ICOK\"]")).click();
 		Thread.sleep(2000);
 	}
 
-	public void clickDropDown(String value) throws InterruptedException {
-		Select filter = new Select(driver.findElement(By.xpath("(//select[@class='ps-dropdown'])[2]")));
-		Thread.sleep(5000);
-		filter.selectByValue(value);
-
-		driver.findElement(By.id("CTS_TS_LAND_WRK_SEARCH$span")).click();
-		Thread.sleep(5000);
-
-		List<WebElement> list = driver
-				.findElements(By.xpath("//div[@class='ps_box-group psc_layout card_group_box  green_color_badge']"));
-		int size = list.size();
-
-		for (int i = 0; i < size; i++) {
-			String date = driver.findElement(By.id("CTS_TS_LAND_PER_DESCR30$" + i)).getText();
-			String status = driver.findElement(By.id("CTS_TS_LAND_PER_CTS_TS_STATUS_LAND$" + i)).getText();
-			Thread.sleep(500);
-			System.out.println(date + "\n" + status);
-		}
-		Thread.sleep(5000);
-	}
+	
 
 	@AfterMethod
 	public void closeDriver() {
 		// System.out.println("hi");
-//		driver.quit();
+		driver.quit();
 	}
 
 	@AfterClass

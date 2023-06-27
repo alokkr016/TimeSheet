@@ -21,7 +21,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 public class Driver 
 {
 	@Test
-	public WebDriver driver(String name) throws IOException, InterruptedException 
+	public WebDriver getDriver(String name) throws IOException, InterruptedException 
 	{
 		Properties p = new Properties();
 		FileReader reader = new FileReader("application.properties");        
